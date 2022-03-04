@@ -23,6 +23,9 @@ public class PlayerBehavior : MonoBehaviour
 
     private GameBehavior _gameManager;
 
+    public delegate void JumpingEvent();
+    public event JumpingEvent playerJump;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -46,6 +49,7 @@ public class PlayerBehavior : MonoBehaviour
         if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
             _rb.AddForce(Vector3.up * jumpVelocity, ForceMode.Impulse);
+            playerJump();
         }
         Vector3 rotation = Vector3.up * hInput;
         Quaternion angleRot = Quaternion.Euler(rotation * Time.fixedDeltaTime);
